@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Great Reconfiguration</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAFAF6;--bg-warm:#F2F0E8;--text:#1E1E1C;--text-mid:#4A4A44;--text-light:#8A8A80;
+  --ember:#E85D26;--ember-deep:#C94D1E;--teal:#1A7A6D;--teal-light:rgba(26,122,109,.08);
+  --sand:#C4A96A;--divider:#DDD8CC;--card:#FEFEFE;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Outfit',-apple-system,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:3rem 1.5rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:550px;height:550px;border-radius:50%;background:radial-gradient(circle,rgba(232,93,38,.04) 0%,transparent 70%);pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:580px}
+.hero-tag{font-size:.56rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--ember);margin-bottom:1.5rem;opacity:0;animation:up .6s .15s forwards}
+.hero h1{font-family:var(--serif);font-size:clamp(2.2rem,5.5vw,3.8rem);font-weight:400;line-height:1.05;margin-bottom:1rem;opacity:0;animation:up .6s .3s forwards}
+.hero h1 em{font-style:italic;color:var(--ember)}
+.hero-hook{font-family:var(--serif);font-size:clamp(1rem,1.8vw,1.15rem);color:var(--text-mid);font-weight:400;line-height:1.6;margin-bottom:1.5rem;opacity:0;animation:up .6s .45s forwards}
+.hero-sub{font-size:.78rem;color:var(--text-light);font-weight:300;line-height:1.7;max-width:440px;margin:0 auto;opacity:0;animation:up .6s .6s forwards}
+
+/* PROGRESS BAR */
+.progress-wrap{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--divider);padding:.5rem 1.5rem;opacity:0;transition:opacity .3s}
+.progress-wrap.show{opacity:1}
+.progress-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:.3rem}
+.progress-dot{width:8px;height:8px;border-radius:50%;background:var(--divider);flex-shrink:0;transition:all .3s}
+.progress-dot.active{background:var(--ember);transform:scale(1.3)}
+.progress-dot.done{background:var(--teal)}
+.progress-line{flex:1;height:2px;background:var(--divider);position:relative}
+.progress-line .fill{height:100%;background:var(--teal);width:0;transition:width .3s}
+.progress-label{font-size:.55rem;font-weight:600;color:var(--text-light);letter-spacing:.08em;margin-left:.4rem;white-space:nowrap}
+
+/* TIMELINE */
+.timeline{max-width:640px;margin:0 auto;padding:1.5rem 1.5rem 2rem}
+.timeline-title{font-size:.55rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--text-light);margin-bottom:.8rem}
+.timeline-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px}
+.timeline-cell{background:var(--card);border:1px solid var(--divider);border-radius:3px;padding:.5rem .3rem;text-align:center}
+.timeline-cell .tc-n{font-family:var(--serif);font-size:.9rem;font-weight:500;color:var(--ember);line-height:1}
+.timeline-cell .tc-name{font-size:.48rem;font-weight:600;color:var(--text);margin-top:.15rem;line-height:1.25}
+.timeline-cell .tc-when{font-size:.42rem;font-weight:400;color:var(--text-light);margin-top:.1rem}
+.timeline-phases{display:grid;grid-template-columns:3fr 1fr 3fr 1fr;gap:2px;margin-top:2px}
+.timeline-phase{font-size:.42rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:.35rem;border-radius:2px}
+
+/* MANIFESTO */
+.manifesto{max-width:620px;margin:0 auto;padding:2.5rem 1.5rem 2rem}
+.manifesto p{font-size:.86rem;color:var(--text-mid);font-weight:300;line-height:1.9;margin-bottom:.8rem}
+.manifesto p strong{color:var(--text);font-weight:500}
+.manifesto .pull{font-family:var(--serif);font-size:1.05rem;color:var(--text);font-style:italic;line-height:1.5;padding:.7rem 0 .7rem 1.2rem;border-left:3px solid var(--ember);margin:.8rem 0}
+.manifesto .pull cite{display:block;font-family:var(--sans);font-size:.62rem;font-style:normal;font-weight:600;color:var(--text-light);margin-top:.25rem}
+
+/* STEP */
+.step{max-width:640px;margin:0 auto;padding:2.5rem 1.5rem 2.5rem;border-top:1px solid var(--divider)}
+.step-header{display:flex;align-items:center;gap:.6rem;margin-bottom:.1rem}
+.step-num{font-family:var(--serif);font-size:1.4rem;font-weight:500;color:var(--ember);line-height:1}
+.step-phase{font-size:.42rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:.15rem .4rem;border-radius:2px;line-height:1}
+.step h2{font-family:var(--serif);font-size:clamp(1.2rem,2.3vw,1.5rem);font-weight:400;line-height:1.25;margin-bottom:.3rem}
+.step .step-why{font-size:.72rem;color:var(--text-light);font-weight:400;font-style:italic;margin-bottom:.5rem}
+.step>p{font-size:.8rem;color:var(--text-mid);font-weight:300;line-height:1.75;margin-bottom:.3rem;max-width:530px}
+.step>p strong{color:var(--text);font-weight:500}
+
+/* QUESTIONS */
+.step>p:last-of-type{margin-bottom:0}
+
+/* REFERENCES */
+.refs{max-width:640px;margin:0 auto;padding:2rem 1.5rem 1.5rem;border-top:1px solid var(--divider)}
+.refs-title{font-size:.5rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--text-light);margin-bottom:.6rem}
+.refs p{font-size:.72rem;color:var(--text-mid);line-height:1.75;font-weight:300;margin-bottom:.6rem}
+.refs p strong{color:var(--text);font-weight:500}
+.refs a{color:var(--ember);text-decoration:none;border-bottom:1px solid var(--ember)}
+
+/* CLOSE */
+.close{max-width:520px;margin:0 auto;padding:2rem 1.5rem 4rem;border-top:1px solid var(--divider);text-align:center}
+.close h2{font-family:var(--serif);font-size:clamp(1.2rem,2.3vw,1.5rem);font-weight:400;line-height:1.25;margin-bottom:.6rem}
+.close p{font-size:.82rem;color:var(--text-mid);font-weight:300;line-height:1.8;text-align:left;margin-bottom:.5rem}
+.close p strong{color:var(--text);font-weight:500}
+.close .cta{display:block;margin-top:.8rem;font-family:var(--serif);font-size:1rem;font-weight:500;color:var(--ember-deep)}
+.close .sign{font-family:var(--serif);font-size:.8rem;color:var(--sand);letter-spacing:.05em;margin-top:.7rem}
+.close .credit{font-size:.58rem;color:var(--text-light);margin-top:.8rem}
+.close .credit a{color:var(--text-light);text-decoration:none;border-bottom:1px solid var(--divider)}
+
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.r{opacity:0;transform:translateY(16px);transition:opacity .45s,transform .45s}.r.v{opacity:1;transform:translateY(0)}
+
+@media(max-width:640px){
+  .timeline-grid{grid-template-columns:repeat(5,1fr)}
+  .timeline-phases{grid-template-columns:1fr 1fr}
+  .progress-label{display:none}
+}
+
+/* SVG ANIMATIONS */
+.anim-svg{opacity:0;transition:opacity .4s}
+.anim-svg.animated{opacity:1}
+
+/* Draw path animation */
+@keyframes drawPath{from{stroke-dashoffset:var(--path-len)}to{stroke-dashoffset:0}}
+.draw-line{stroke-dasharray:var(--path-len);stroke-dashoffset:var(--path-len)}
+.animated .draw-line{animation:drawPath 1.2s ease-out forwards}
+
+/* Fade in with delay */
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.anim-fade{opacity:0}.animated .anim-fade{animation:fadeUp .5s ease-out forwards}
+.anim-d1{animation-delay:.2s!important}.anim-d2{animation-delay:.4s!important}
+.anim-d3{animation-delay:.6s!important}.anim-d4{animation-delay:.8s!important}
+.anim-d5{animation-delay:1s!important}.anim-d6{animation-delay:1.2s!important}
+
+/* Scale pop */
+@keyframes scalePop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+.anim-pop{opacity:0;transform-origin:center;transform:scale(0)}
+.animated .anim-pop{animation:scalePop .4s ease-out forwards}
+
+/* Expand circle */
+@keyframes expandCircle{from{r:0;opacity:0}to{opacity:1}}
+.anim-expand{opacity:0}.animated .anim-expand{animation:expandCircle .6s ease-out forwards}
+</style>
+</head>
+<body>
+
+<!-- ═══ PROGRESS BAR ═══ -->
+<div class="progress-wrap" id="progressBar">
+  <div class="progress-inner">
+    <div class="progress-dot" data-step="1"></div><div class="progress-line"><div class="fill"></div></div>
+    <div class="progress-dot" data-step="2"></div><div class="progress-line"><div class="fill"></div></div>
+    <div class="progress-dot" data-step="3"></div><div class="progress-line"><div class="fill"></div></div>
+    <div class="progress-dot" data-step="4"></div><div class="progress-line"><div class="fill"></div></div>
+    <div class="progress-dot" data-step="5"></div><div class="progress-line"><div class="fill"></div></div>
+    <div class="progress-dot" data-step="6"></div><div class="progress-line"><div class="fill"></div></div>
+    <div class="progress-dot" data-step="7"></div><div class="progress-line"><div class="fill"></div></div>
+    <div class="progress-dot" data-step="8"></div><div class="progress-line"><div class="fill"></div></div>
+    <div class="progress-dot" data-step="9"></div><div class="progress-line"><div class="fill"></div></div>
+    <div class="progress-dot" data-step="10"></div>
+    <div class="progress-label">Step <span id="currentStep">1</span> of 10</div>
+  </div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">2026</div>
+    <h1>The Great <em>Reconfiguration</em></h1>
+    <p class="hero-hook">The world is asking a new question:<br><strong>what do you do that has value, and who needs it?</strong><br>Here are ten steps that might help you find the answer.</p>
+    <p class="hero-sub">Ten stepping stones. Each one builds on the last. Take what's useful. Leave what isn't.</p>
+  </div>
+</section>
+
+<!-- ═══ TIMELINE ═══ -->
+<div class="timeline r">
+  <div class="timeline-title">The journey</div>
+  <div class="timeline-grid" style="grid-template-columns:repeat(10,1fr)">
+    <div class="timeline-cell"><div class="tc-n">1</div><div class="tc-name">Audit</div></div>
+    <div class="timeline-cell"><div class="tc-n">2</div><div class="tc-name">Identity</div></div>
+    <div class="timeline-cell"><div class="tc-n">3</div><div class="tc-name">Signal</div></div>
+    <div class="timeline-cell"><div class="tc-n">4</div><div class="tc-name">Synthesise</div></div>
+    <div class="timeline-cell"><div class="tc-n">5</div><div class="tc-name">Audience</div></div>
+    <div class="timeline-cell"><div class="tc-n">6</div><div class="tc-name">Envision</div></div>
+    <div class="timeline-cell"><div class="tc-n">7</div><div class="tc-name">Test</div></div>
+    <div class="timeline-cell"><div class="tc-n">8</div><div class="tc-name">Refine</div></div>
+    <div class="timeline-cell"><div class="tc-n">9</div><div class="tc-name">Prove</div></div>
+    <div class="timeline-cell"><div class="tc-n">10</div><div class="tc-name">Talk</div></div>
+  </div>
+  <div class="timeline-phases" style="grid-template-columns:3fr 2fr 4fr 1fr">
+    <div class="timeline-phase" style="background:var(--teal-light);color:var(--teal)">Go deep: find your best self</div>
+    <div class="timeline-phase" style="background:var(--teal-light);color:var(--teal)">Bridge</div>
+    <div class="timeline-phase" style="background:rgba(232,93,38,.08);color:var(--ember)">Go out: test and prove your value</div>
+    <div class="timeline-phase" style="background:rgba(232,93,38,.08);color:var(--ember)">Lock in</div>
+  </div>
+</div>
+
+<!-- ═══ MANIFESTO ═══ -->
+<div class="manifesto r">
+  <p>Nobody knows what strategy is becoming. Not the agencies. Not the consultants. Not the people with the title. The discipline that's supposed to help others navigate uncertainty is itself uncertain about what it is, what it's worth, and who needs it. If you're a strategist reading this and feeling like the ground is shifting under you, it's not just you. It's the ground.</p>
+  <p>Last week I wrote a piece called <em><a href="https://yearofstuck.vercel.app/" style="color:var(--text);text-decoration:none;border-bottom:1px solid var(--ember)">Year of Stuck</a></em> on the reasons why so many people feel frozen right now. The response made one thing clear: being stuck isn't really the problem. It's a symptom. The question underneath it, the one that keeps coming up in every conversation. What do I actually do that has value? Who needs it? And how do I build from it when the old paths are dissolving?</p>
+  <p>The relationship between what you do and what you get paid for is being renegotiated, everywhere. Which means the thing that actually has value now is what's distinctly, irreducibly you. <strong>This is the quest to find out what that is.</strong></p>
+
+  <p>Adam Grant's research at Wharton found that the people who navigate uncertainty best aren't the ones with the strongest convictions. They're the ones willing to update their thinking when the evidence changes. He puts it simply:</p>
+
+  <div class="pull">"So many people prefer the comfort of conviction over the discomfort of doubt."<cite>— Adam Grant</cite></div>
+
+  <p>For strategists, that's an occupational hazard. The whole discipline is built on projecting confidence in the answer. But right now, there might not be one. Do you really want to be the smartest person in the room when nobody is smart enough to see the future? And if you're arrogant enough to believe you can, not many will want to work with you in 2026.</p>
+
+  <p>You can treat what follows as a journey and work through the steps. You can also just read the stories and ideas and take away what resonates. Either way, you'll leave knowing more than when you arrived.</p>
+</div>
+
+
+<!-- ═══ STEP 1 ═══ -->
+<div class="step r" id="step1">
+  <div class="step-header"><div class="step-num">1</div><div class="step-phase" style="background:var(--teal-light);color:var(--teal)">Go deep</div></div>
+  <h2>🔍 The Hidden Inventory</h2>
+  <div class="step-why">Step 1</div>
+  <p>There's an interesting question buried inside any job: what's the part that's actually you? Not "I do brand strategy." The actual tasks. The deck-building. The trend reports. The competitive reviews. The unlocking of an insight. The briefing and working with creative teams. The development of a unique point of view. The deep understanding of the brand, the audience, and culture. But which parts of these do you excel at in a way a machine cannot replicate? And of those parts, what parts matter? What are they exactly? Can you describe them, and why you are good at them? Acemoglu and Autor at MIT spent years studying how work is really structured, and their key insight was simple: every role is a bundle of tasks, and inside every bundle there are usually a few things that are genuinely hard to replicate. Seth Godin in his 2010 book (<em>Linchpin</em>) offers a quick way to spot them: do people come to you, or do you go to them? Do they ask you for things that aren't on your job description?</p>
+
+  <!-- Task bundle diagram -->
+  <svg viewBox="0 0 440 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:440px;margin:1rem auto;display:block">
+    <style>
+      .b-text{font-family:'Outfit',sans-serif;font-size:8px;font-weight:600;text-anchor:middle;fill:#fff}
+      .b-label{font-family:'Outfit',sans-serif;font-size:7px;font-weight:300;text-anchor:middle;fill:#8A8A80}
+    </style>
+    <!-- Machine tasks -->
+    <rect x="10" y="30" width="60" height="28" rx="4" fill="#DDD8CC"/>
+    <text x="40" y="48" class="b-text" style="fill:#8A8A80">🤖</text>
+    <rect x="75" y="30" width="60" height="28" rx="4" fill="#DDD8CC"/>
+    <text x="105" y="48" class="b-text" style="fill:#8A8A80">🤖</text>
+    <rect x="140" y="30" width="60" height="28" rx="4" fill="#DDD8CC"/>
+    <text x="170" y="48" class="b-text" style="fill:#8A8A80">🤖</text>
+    <text x="105" y="76" class="b-label">a machine could do this</text>
+    <!-- Human tasks -->
+    <rect x="215" y="30" width="60" height="28" rx="4" fill="#C4A96A" opacity=".5"/>
+    <text x="245" y="48" class="b-text" style="fill:#4A4A44">🤝</text>
+    <rect x="280" y="30" width="60" height="28" rx="4" fill="#C4A96A" opacity=".5"/>
+    <text x="310" y="48" class="b-text" style="fill:#4A4A44">🤝</text>
+    <text x="277" y="76" class="b-label">needs a human</text>
+    <!-- Uniquely you -->
+    <rect x="355" y="20" width="70" height="48" rx="6" fill="#E85D26"/>
+    <text x="390" y="42" class="b-text" style="font-size:10px">⚡</text>
+    <text x="390" y="54" class="b-text" style="font-size:7px">uniquely you</text>
+    <text x="390" y="86" class="b-label" style="fill:#E85D26;font-weight:600">this is the gold</text>
+    <!-- Energy sub-tags -->
+    <rect x="355" y="100" width="32" height="22" rx="4" fill="none" stroke="#1A7A6D" stroke-width="1"/>
+    <text x="371" y="114" class="b-text" style="fill:#1A7A6D;font-size:9px">🔋+</text>
+    <rect x="393" y="100" width="32" height="22" rx="4" fill="none" stroke="#DDD8CC" stroke-width="1"/>
+    <text x="409" y="114" class="b-text" style="fill:#8A8A80;font-size:9px">🪫−</text>
+    <text x="390" y="138" class="b-label">energising or draining?</text>
+  </svg>
+  <p><strong>Some questions worth sitting with:</strong></p>
+  <p>What do you actually do in a week? Not your title. The tasks. If you listed them all out, which ones could a machine handle tomorrow? Which ones need a human but not necessarily you? And which ones are specifically, distinctly yours?</p>
+  <p>Of those, which ones give you energy and which ones drain you? You can be uniquely good at something that exhausts you. That's worth noticing.</p>
+  <p>What should you stop doing manually so you can spend more time on the things that are genuinely yours?</p>
+</div>
+
+
+<!-- ═══ STEP 2 ═══ -->
+<div class="step r" id="step2">
+  <div class="step-header"><div class="step-num">2</div><div class="step-phase" style="background:var(--teal-light);color:var(--teal)">Go deep</div></div>
+  <h2>🪞 The Identity Reckoning</h2>
+  <div class="step-why">Step 2</div>
+  <p>In the fall of 1983, James Pennebaker and a graduate student named Sandy Beall ran an experiment at the University of Texas that Pennebaker later admitted was "horribly underpowered." They asked students to write for 15 minutes a day, four days in a row, about the most difficult experience of their lives. No therapy. No feedback. Just writing. Many came out of the writing room in tears, but they kept coming back. Over the following six months, the students who wrote honestly visited the health centre at roughly half the rate of the control group.</p>
+  <p>Two years later, Pennebaker teamed up with immunologists and found something even more surprising: the writing didn't just reduce doctor visits, it produced measurable changes in immune function. T-cell activity went up. The body was literally responding to the act of putting difficult experiences into words.</p>
+  <p>Since then, more than 200 studies have replicated and extended the finding. Lower blood pressure. Better sleep. Reduced anxiety. But perhaps the most interesting discovery was about language. Pennebaker found that the people who benefited most weren't the ones who vented the hardest. They were the ones whose writing changed over the four days. They started with "I" language, shifted to seeing things from other perspectives, then came back to "I" with more clarity. They used words like "realise," "because," and "understand." They weren't just expressing feelings. They were building a story that made sense. That's the mechanism: not catharsis, but coherence. Turning noise into narrative.</p>
+
+  <!-- Pennebaker language shift -->
+  <svg viewBox="0 0 440 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:440px;margin:1rem auto;display:block" class="anim-svg">
+    <style>
+      .pw-day{font-family:'Outfit',sans-serif;font-size:8px;font-weight:700;fill:#8A8A80;text-anchor:middle;letter-spacing:.5px;text-transform:uppercase}
+      .pw-word{font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:500;text-anchor:middle}
+      .pw-sub{font-family:'Outfit',sans-serif;font-size:7.5px;font-weight:300;fill:#8A8A80;text-anchor:middle}
+    </style>
+    <!-- Day markers -->
+    <text x="70" y="20" class="pw-day anim-fade anim-d1">Day 1</text>
+    <text x="180" y="20" class="pw-day anim-fade anim-d2">Day 2</text>
+    <text x="290" y="20" class="pw-day anim-fade anim-d3">Day 3</text>
+    <text x="400" y="20" class="pw-day anim-fade anim-d4">Day 4</text>
+    <!-- Language curve -->
+    <path d="M70 45 C120 45, 140 85, 180 85 C220 85, 250 85, 290 85 C330 85, 360 50, 400 50" fill="none" stroke="#E85D26" stroke-width="2" class="draw-line" style="--path-len:400"/>
+    <!-- Labels -->
+    <text x="70" y="65" class="pw-word anim-fade anim-d1" style="fill:#E85D26">"I"</text>
+    <text x="70" y="80" class="pw-sub anim-fade anim-d1">my experience</text>
+    <text x="235" y="105" class="pw-word anim-fade anim-d3" style="fill:#C4A96A">"they" "he" "she"</text>
+    <text x="235" y="118" class="pw-sub anim-fade anim-d3">other perspectives</text>
+    <text x="400" y="70" class="pw-word anim-fade anim-d5" style="fill:#1A7A6D">"I"</text>
+    <text x="400" y="85" class="pw-sub anim-fade anim-d5">with clarity</text>
+    <!-- Dots on curve -->
+    <circle cx="70" cy="45" r="4" fill="#E85D26" class="anim-pop anim-d1"/>
+    <circle cx="180" cy="85" r="4" fill="#C4A96A" class="anim-pop anim-d2"/>
+    <circle cx="290" cy="85" r="4" fill="#C4A96A" class="anim-pop anim-d3"/>
+    <circle cx="400" cy="50" r="4" fill="#1A7A6D" class="anim-pop anim-d4"/>
+  </svg>
+  <p>One of the smartest things about Pennebaker's design is that nobody ever has to see what you write. You write for yourself. You can throw it away, burn it, delete it. Some studies found that even two minutes of writing produced measurable effects. He designed the whole thing around the reality that most people would rather not share what's really going on, and it still works.</p>
+  <p>Herminia Ibarra at London Business School discovered something fascinating about career identity. She found that most people carry with them a kind of secret weapon: what she calls their "possible selves." These are the futures they already sense they're heading toward, the versions of themselves they can almost see but haven't yet stepped into. It's an idea with ancient roots: the Bhagavad Gita calls it <em>svadharma</em>, your own nature, the thing that's yours whether or not the world has made room for it yet. The interesting thing is that people rarely unlock this until they're forced to. The question is whether you wait for that, or go looking for it now.</p>
+  <p>Adam Grant at Wharton (<em>Hidden Potential</em>) adds another dimension. He was 25 when he first tried to teach leadership to US Air Force generals. His evaluations were brutal. He could have concluded he wasn't cut out for it. Instead he spent two decades studying the gap between what people think they're capable of and what they actually are. His conclusion: the gap is almost always wider than you think, and almost always in your favour.</p>
+  <p><strong>Some questions worth sitting with:</strong></p>
+  <p>What's the professional story you've been telling? "I help clients understand the world." "I bring different people together across client and agency roles." "I'm the one who really helps creative people build their ideas." "I do comms strategy." For each one: still true? Still useful? Or just familiar?</p>
+  <p>What's actually true now? What do you do that's harder to describe but more valuable? The thing behind the job title that you'd struggle to put on a LinkedIn profile but that people actually come to you for.</p>
+  <p>What scares you and excites you simultaneously? That's your edge.</p>
+</div>
+
+
+<!-- ═══ STEP 3 ═══ -->
+<div class="step r" id="step3">
+  <div class="step-header"><div class="step-num">3</div><div class="step-phase" style="background:var(--teal-light);color:var(--teal)">Go deep</div></div>
+  <h2>📡 The Outside View</h2>
+  <div class="step-why">Step 3</div>
+  <p>In the early 1970s, a Harvard PhD student named Mark Granovetter went to a suburb of Boston and asked 282 professionals a simple question: how did you get your last job? Specifically, if a personal contact helped, how often did you see that person? The results were striking: only about 17% had found their job through a close contact. More than 83% got the crucial information from someone they saw only occasionally or rarely. The people who mattered most for career opportunities weren't close friends. They were acquaintances.</p>
+  <p>Granovetter called them "weak ties." Your closest contacts tend to share your worldview, your industry, your assumptions. But someone you haven't spoken to in a few months moves in different circles, hears about different things, and sees you from a completely different angle. The paper he wrote about it was rejected the first time he submitted it. He resubmitted it, and it became one of the most cited papers in social science. Fifty years later, researchers ran a five-year experiment with 20 million people on LinkedIn and confirmed the finding still holds.</p>
+
+  <!-- Weak ties diagram -->
+  <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:400px;margin:1rem auto;display:block" class="anim-svg">
+    <style>
+      .wt-label{font-family:'Outfit',sans-serif;font-size:8px;font-weight:600;text-anchor:middle;letter-spacing:.3px}
+      .wt-pct{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-weight:600;text-anchor:middle}
+      .wt-sub{font-family:'Outfit',sans-serif;font-size:7px;font-weight:300;text-anchor:middle;fill:#8A8A80}
+    </style>
+    <!-- You at centre -->
+    <circle cx="200" cy="100" r="8" fill="#E85D26" class="anim-pop anim-d1"/>
+    <text x="200" y="103" style="font-family:'Outfit',sans-serif;font-size:6px;font-weight:700;fill:#fff;text-anchor:middle" class="anim-fade anim-d1">YOU</text>
+    <!-- Inner circle -->
+    <circle cx="200" cy="100" r="45" fill="none" stroke="#DDD8CC" stroke-width="1.5" class="draw-line" style="--path-len:283"/>
+    <text x="200" y="155" class="wt-label anim-fade anim-d2" style="fill:#8A8A80">inner circle</text>
+    <!-- Inner dots -->
+    <circle cx="175" cy="65" r="4" fill="#DDD8CC" class="anim-pop anim-d2"/>
+    <circle cx="230" cy="72" r="4" fill="#DDD8CC" class="anim-pop anim-d2"/>
+    <circle cx="215" cy="135" r="4" fill="#DDD8CC" class="anim-pop anim-d2"/>
+    <circle cx="165" cy="120" r="4" fill="#DDD8CC" class="anim-pop anim-d2"/>
+    <!-- Outer ring -->
+    <circle cx="200" cy="100" r="90" fill="none" stroke="#E85D26" stroke-width="1" stroke-dasharray="4,3" class="anim-fade anim-d3"/>
+    <text x="200" y="198" class="wt-label anim-fade anim-d4" style="fill:#E85D26">outer ring — weak ties</text>
+    <!-- Outer dots -->
+    <circle cx="120" cy="55" r="4" fill="#E85D26" opacity=".6" class="anim-pop anim-d3"/>
+    <circle cx="290" cy="65" r="4" fill="#E85D26" opacity=".6" class="anim-pop anim-d3"/>
+    <circle cx="300" cy="140" r="4" fill="#E85D26" opacity=".6" class="anim-pop anim-d4"/>
+    <circle cx="110" cy="130" r="4" fill="#E85D26" opacity=".6" class="anim-pop anim-d4"/>
+    <circle cx="250" cy="25" r="4" fill="#E85D26" opacity=".6" class="anim-pop anim-d4"/>
+    <circle cx="145" cy="170" r="4" fill="#E85D26" opacity=".6" class="anim-pop anim-d5"/>
+    <!-- Stats -->
+    <text x="65" y="40" class="wt-pct anim-fade anim-d5" style="fill:#DDD8CC">17%</text>
+    <text x="65" y="52" class="wt-sub anim-fade anim-d5">close contacts</text>
+    <text x="345" y="40" class="wt-pct anim-fade anim-d5" style="fill:#E85D26">83%</text>
+    <text x="345" y="52" class="wt-sub anim-fade anim-d5">acquaintances</text>
+  </svg>
+  <p><strong>Some questions worth sitting with:</strong></p>
+  <p>Who are 5 people who've seen you work but aren't in your daily circle? Former clients. People in adjacent roles: futurists, business consultants, authors, journalists, coaches. Not other strategists. They share your blind spots.</p>
+  <p>If you asked them "what do I do better than most people?", what would they say? And what words would come up more than once?</p>
+</div>
+
+
+<!-- ═══ STEP 4 ═══ -->
+<div class="step r" id="step4">
+  <div class="step-header"><div class="step-num">4</div><div class="step-phase" style="background:var(--teal-light);color:var(--teal)">Bridge</div></div>
+  <h2>⚗️ The Synthesis</h2>
+  <div class="step-why">Step 4</div>
+  <p>Forget the title for a moment. If you couldn't use the word that's on your LinkedIn profile, how would you describe what you actually do? Not the process. The benefit. What does someone get from working with you that they can't get anywhere else? Some people simplify. They take something tangled and make it clear. Others amplify: they take a small idea and make it bigger, louder, more visible. Some facilitate: they create the conditions for other people to do their best thinking. Some divine the truth: they see what's really going on underneath the noise. Some connect: they bring people and ideas together that wouldn't otherwise meet. These are different animals. Knowing which one you are changes everything about how you describe yourself, who you talk to, and what you offer.</p>
+
+  <!-- Taxonomy diagram -->
+  <svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;margin:1.2rem auto;display:block">
+    <style>
+      .tax-label{font-family:'Outfit',sans-serif;fill:#4A4A44;font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+      .tax-value{font-family:'Cormorant Garamond',Georgia,serif;fill:#1E1E1C;font-size:14px;font-weight:500}
+      .tax-hint{font-family:'Outfit',sans-serif;fill:#8A8A80;font-size:8.5px;font-weight:300;font-style:italic}
+      .tax-line{stroke:#DDD8CC;stroke-width:1}
+      .tax-dot{fill:#E85D26}
+      .tax-you{font-family:'Cormorant Garamond',Georgia,serif;fill:#E85D26;font-size:18px;font-weight:600;font-style:italic}
+      .tax-species{font-family:'Cormorant Garamond',Georgia,serif;fill:#4A4A44;font-size:11px;font-style:italic}
+    </style>
+    <!-- Vertical line -->
+    <line x1="90" y1="30" x2="90" y2="310" class="tax-line"/>
+    <!-- Dots and levels -->
+    <circle cx="90" cy="45" r="4" class="tax-dot"/>
+    <text x="105" y="42" class="tax-label">Kingdom</text>
+    <text x="105" y="57" class="tax-value">What you do that has value</text>
+
+    <circle cx="90" cy="100" r="4" class="tax-dot"/>
+    <text x="105" y="97" class="tax-label">Phylum</text>
+    <text x="105" y="112" class="tax-value">The domain you work in</text>
+
+    <circle cx="90" cy="155" r="4" class="tax-dot"/>
+    <text x="105" y="152" class="tax-label">Class</text>
+    <text x="105" y="167" class="tax-value">How you create value</text>
+
+    <circle cx="90" cy="210" r="4" class="tax-dot"/>
+    <text x="105" y="207" class="tax-label">Genus</text>
+    <text x="105" y="222" class="tax-species">Simplicator · Amplificator · Facilitator · Divinator · Coniunctor</text>
+    <text x="105" y="237" class="tax-hint">simplifier · amplifier · facilitator · truth-diviner · connector</text>
+
+    <circle cx="90" cy="290" r="5.5" class="tax-dot"/>
+    <text x="105" y="282" class="tax-label">Species</text>
+    <text x="105" y="300" class="tax-you">___________ ___________</text>
+    <text x="105" y="316" class="tax-hint">your latin name — what only you do</text>
+  </svg>
+
+  <p><strong>Some questions worth sitting with:</strong></p>
+  <p>If you laid your answers from the first three steps side by side, where do they overlap? What appears in all three?</p>
+  <p>Can you describe what you do without using your job title? In a sentence specific enough that someone doing similar work would say "ah, that's not what I do"?</p>
+  <p>Which genus are you closest to? Or are you a hybrid? What's the specific combination that makes you the particular animal you are?</p>
+</div>
+
+
+<!-- ═══ STEP 5 ═══ -->
+<div class="step r" id="step5">
+  <div class="step-header"><div class="step-num">5</div><div class="step-phase" style="background:var(--teal-light);color:var(--teal)">Bridge</div></div>
+  <h2>🎯 The Audience</h2>
+  <div class="step-why">Step 5</div>
+  <p>Godin's sharpest question, the one he landed on in <em>This Is Strategy</em> (2024), isn't "what are you good at?" It's "who would miss you if you were gone?" He calls it your smallest viable audience. Not everyone. The specific people who already have the problem you solve and are already looking for someone to solve it.</p>
+  <p>For anyone working in or around strategy, this question comes with baggage. Should what you do even be called strategy? The word has a performative problem: too much fat on the bones and not enough lean meat. Too much theory, not enough action. Clients who've been through an exhaustive, intellectual, long-form process and came out the other side wondering where the answer was. The gap between what strategists want to sell and what clients want to buy right now might be wider than you think. Your audience might not want a strategist. They might want someone who gets their hands dirty, who shares process instead of hiding it, who works as a collaborator not a lone author, who can operationalise the insight instead of just presenting it. The question isn't just "who needs me?" It's "what do they think they're buying, and does the word strategy help or hurt?"</p>
+
+  <!-- Sell:Buy gap -->
+  <svg viewBox="0 0 440 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:440px;margin:1rem auto;display:block">
+    <style>
+      .gap-text{font-family:'Outfit',sans-serif;font-size:9px;font-weight:600;text-anchor:middle}
+      .gap-sub{font-family:'Outfit',sans-serif;font-size:7px;font-weight:300;fill:#8A8A80;text-anchor:middle}
+      .gap-label{font-family:'Outfit',sans-serif;font-size:7px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;text-anchor:middle}
+    </style>
+    <!-- What you sell -->
+    <rect x="30" y="25" width="140" height="55" rx="4" fill="none" stroke="#E85D26" stroke-width="1.5"/>
+    <text x="100" y="47" class="gap-text" style="fill:#E85D26">What you want to sell</text>
+    <text x="100" y="62" class="gap-sub">big picture, macro, vision</text>
+    <text x="100" y="73" class="gap-sub">long-form process</text>
+    <!-- Gap -->
+    <line x1="185" y1="52" x2="255" y2="52" stroke="#DDD8CC" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="220" y="45" class="gap-label" style="fill:#C4A96A">the gap</text>
+    <!-- What they buy -->
+    <rect x="270" y="25" width="140" height="55" rx="4" fill="none" stroke="#1A7A6D" stroke-width="1.5"/>
+    <text x="340" y="47" class="gap-text" style="fill:#1A7A6D">What they want to buy</text>
+    <text x="340" y="62" class="gap-sub">hands dirty, practical, fast</text>
+    <text x="340" y="73" class="gap-sub">collaborative, operational</text>
+    <!-- Question -->
+    <text x="220" y="105" class="gap-sub" style="font-style:italic">does the word help or hurt?</text>
+  </svg>
+  <p><strong>Some questions worth sitting with:</strong></p>
+  <p>Who are three types of people who might need what you do? Do they know they have the problem? Are they already paying someone to solve it? Do they control budget?</p>
+  <p>Would they miss you if you were gone? If the honest answer is no, you might be talking to the wrong room.</p>
+</div>
+
+
+<!-- ═══ STEP 6 ═══ -->
+<div class="step r" id="step6">
+  <div class="step-header"><div class="step-num">6</div><div class="step-phase" style="background:rgba(232,93,38,.08);color:var(--ember)">Go out</div></div>
+  <h2>🎤 The Speech</h2>
+  <div class="step-why">Step 6</div>
+  <p>In 1989, three researchers, Deborah Mitchell at Wharton, Edward Russo at Cornell, and Nancy Pennington at Colorado, ran an experiment they titled "Back to the Future." They gave people a simple scenario about a woman planning a party for her coworkers. Some were asked to predict whether it would succeed. Others were told "the party was a great success" and asked to explain why. The people who were told it had already happened generated 30% more reasons, and much more specific ones. The researchers used a basketball analogy: before a game, you talk about matchups and team strengths. After a game, you talk about Player A's foul trouble and Player B's off night. Those details are too specific to predict in advance but too important to ignore in hindsight. Prospective hindsight tricks your brain into generating them before the event happens.</p>
+  <p>Psychologist Gary Klein turned this into a practical tool he called the "pre-mortem," and it spread to military planning, surgery, and elite athletics. Daniel Kahneman called it "a low-cost, high-payoff kind of thing." We're using it here in reverse: not imagining failure, but imagining success, and working backward to find the steps.</p>
+
+  <!-- Backward planning -->
+  <svg viewBox="0 0 440 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:440px;margin:1rem auto;display:block" class="anim-svg">
+    <defs><marker id="arr2" markerWidth="7" markerHeight="5" refX="1" refY="2.5" orient="auto"><polygon points="7 0, 0 2.5, 7 5" fill="#1A7A6D"/></marker></defs>
+    <style>.bp{font-family:'Outfit',sans-serif;font-size:8px;font-weight:600;text-anchor:middle}</style>
+    <!-- Success (right) -->
+    <circle cx="390" cy="35" r="18" fill="#1A7A6D" opacity=".12" class="anim-pop anim-d1"/>
+    <circle cx="390" cy="35" r="12" fill="#1A7A6D" class="anim-pop anim-d1"/>
+    <text x="390" y="38" class="bp anim-fade anim-d1" style="fill:#fff;font-size:7px">SUCCESS</text>
+    <text x="390" y="68" class="bp anim-fade anim-d2" style="fill:#1A7A6D;font-weight:300;font-size:7px">one year from now</text>
+    <!-- Arrow pointing left (backward) -->
+    <line x1="365" y1="35" x2="80" y2="35" stroke="#1A7A6D" stroke-width="1.5" stroke-dasharray="6,4" class="draw-line" style="--path-len:285;animation-delay:.4s"/>
+    <!-- Now (left) -->
+    <circle cx="55" cy="35" r="5" fill="#E85D26" class="anim-pop anim-d5"/>
+    <text x="55" y="60" class="bp anim-fade anim-d5" style="fill:#E85D26;font-weight:300;font-size:7px">now</text>
+    <!-- Steps along the way -->
+    <circle cx="155" cy="35" r="3" fill="#C4A96A" class="anim-pop anim-d3"/>
+    <circle cx="230" cy="35" r="3" fill="#C4A96A" class="anim-pop anim-d3"/>
+    <circle cx="305" cy="35" r="3" fill="#C4A96A" class="anim-pop anim-d4"/>
+    <text x="220" y="18" class="bp anim-fade anim-d4" style="fill:#8A8A80;font-weight:300;font-size:7px">work backward to find the steps</text>
+  </svg>
+  <p>For strategists, this has a particular edge. You spend your career imagining futures for clients but rarely do it for yourself. So: what does success actually look like for you in a year? Keeping the agency afloat? Helping clients succeed? Winning new business? Growing and training a team? Paying the rent? Winning awards? Having fun? Doing stimulating and interesting work? Partnering and collaborating with amazing people? Stretching yourself, pushing against your comfort zone? These aren't the same answer. Which ones matter to you, and which ones are you chasing out of habit?</p>
+  <p><strong>Some questions worth sitting with:</strong></p>
+  <p>It's one year from today. You're with people you respect. You've been asked to say a few words about the past year. What did you build? Who did you serve? What surprised you? Write it in past tense.</p>
+  <p>Of everything you wrote, what feels most alive? And what's the single smallest first move toward each one?</p>
+</div>
+
+
+<!-- ═══ STEP 7 ═══ -->
+<div class="step r" id="step7">
+  <div class="step-header"><div class="step-num">7</div><div class="step-phase" style="background:rgba(232,93,38,.08);color:var(--ember)">Go out</div></div>
+  <h2>🧪 The Experiments</h2>
+  <div class="step-why">Step 7</div>
+  <p>Herminia Ibarra spent years following people through career reinventions at London Business School. Investment bankers who became novelists. Consultants who became teachers. Engineers who became therapists. She expected to find a pattern of careful planning. Instead, she found the opposite. <strong>Every successful reinvention followed the same messy sequence: try something, talk to new people, make sense of what happened, repeat.</strong> The people who planned carefully and waited for certainty were the ones who stayed stuck. The ones who ran small, cheap experiments, often several at once, were the ones who found their new path.</p>
+  <p>What she found was that every successful reinvention involved the same three things: trying new activities (not thinking about them, actually doing them), talking to people outside your usual circle, and taking time to make sense of what happened before doing it again. Not one of the three. All three, together, usually at the same time.</p>
+
+  <!-- Ibarra's three mechanisms -->
+  <svg viewBox="0 0 360 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:360px;margin:1rem auto;display:block" class="anim-svg">
+    <defs><marker id="arr3" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0, 6 2, 0 4" fill="#E85D26"/></marker></defs>
+    <style>
+      .ib-text{font-family:'Outfit',sans-serif;font-size:9px;font-weight:600;text-anchor:middle}
+      .ib-sub{font-family:'Outfit',sans-serif;font-size:7px;font-weight:300;text-anchor:middle;fill:#8A8A80}
+    </style>
+    <!-- Three nodes -->
+    <circle cx="180" cy="30" r="28" fill="none" stroke="#E85D26" stroke-width="1.5" class="anim-pop anim-d1"/>
+    <text x="180" y="28" class="ib-text anim-fade anim-d1" style="fill:#E85D26">Try</text>
+    <text x="180" y="40" class="ib-sub anim-fade anim-d1">new activities</text>
+
+    <circle cx="80" cy="145" r="28" fill="none" stroke="#1A7A6D" stroke-width="1.5" class="anim-pop anim-d2"/>
+    <text x="80" y="143" class="ib-text anim-fade anim-d2" style="fill:#1A7A6D">Talk</text>
+    <text x="80" y="155" class="ib-sub anim-fade anim-d2">new people</text>
+
+    <circle cx="280" cy="145" r="28" fill="none" stroke="#C4A96A" stroke-width="1.5" class="anim-pop anim-d3"/>
+    <text x="280" y="143" class="ib-text anim-fade anim-d3" style="fill:#C4A96A">Sense</text>
+    <text x="280" y="155" class="ib-sub anim-fade anim-d3">make meaning</text>
+
+    <!-- Connecting arrows -->
+    <path d="M160 55 L105 120" fill="none" stroke="#E85D26" stroke-width="1.2" marker-end="url(#arr3)" class="draw-line anim-d4" style="--path-len:85"/>
+    <path d="M110 145 L250 145" fill="none" stroke="#E85D26" stroke-width="1.2" marker-end="url(#arr3)" class="draw-line anim-d5" style="--path-len:140"/>
+    <path d="M260 120 L200 55" fill="none" stroke="#E85D26" stroke-width="1.2" marker-end="url(#arr3)" class="draw-line anim-d6" style="--path-len:85"/>
+    <!-- Centre label -->
+    <text x="180" y="108" style="font-family:'Outfit',sans-serif;font-size:7px;font-weight:700;text-anchor:middle;fill:#8A8A80;letter-spacing:.5px;text-transform:uppercase" class="anim-fade anim-d6">all three together</text>
+  </svg>
+  <p>One thing worth knowing before you start: when experiments don't land, the instinct is to quit. Neuroscientist Jud Brewer at Brown University spent 20 years studying that instinct. He found that the brain treats uncertainty like a threat and defaults to an anxiety loop: worry, avoidance, the false comfort of giving up. His research showed the antidote isn't willpower, it's curiosity. Instead of "this isn't working," the better question is: "was this a bad idea, or a bad experiment?" A bad idea gets silence from everyone. A bad experiment gets the wrong response from the wrong audience. The difference matters.</p>
+  <p>For strategists, the experiments aren't about posting a thought and seeing who likes it. They're about demonstrating what you bring before anyone asks you to. Prove your worth. Show you understand the client's business and point of view. Put yourself in their shoes. Do something that makes them think "this person already gets it." That might be a short piece of thinking about their specific challenge. An unsolicited perspective on something they're dealing with. A workshop you offer to run. A problem you solve without being briefed. The goal isn't to show you're smart. It's to show what it would feel like to have you on their side: someone who sees their business clearly because you're not inside it. Don't expect to be given anything. The experiment is the demonstration.</p>
+  <p><strong>Some questions worth sitting with:</strong></p>
+  <p>What are three small experiments you could run this week? Not plans. Things you could actually do.</p>
+  <p>Who could you reach out to that you haven't spoken to in a while? What would you say?</p>
+</div>
+
+
+<!-- ═══ STEP 8 ═══ -->
+<div class="step r" id="step8">
+  <div class="step-header"><div class="step-num">8</div><div class="step-phase" style="background:rgba(232,93,38,.08);color:var(--ember)">Go out</div></div>
+  <h2>📊 The Signal</h2>
+  <div class="step-why">Step 8</div>
+  <p>What you're looking for is the provocation that gets you into the room. Not the polished pitch. The piece of thinking, the unsolicited perspective, the framework, the question that's interesting enough that someone says "come talk to us about that." If it doesn't get you in, try a different provocation. If it does, pay attention to what happens next: what did they react to? What did they ignore? What did they ask you to do that you didn't offer? Keep experimenting. Keep adjusting the provocation. The invitations are the data.</p>
+
+  <!-- Provocation loop -->
+  <svg viewBox="0 0 440 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:440px;margin:1rem auto;display:block" class="anim-svg">
+    <style>
+      .loop-text{font-family:'Outfit',sans-serif;fill:#1E1E1C;font-size:10px;font-weight:600;text-anchor:middle}
+      .loop-sub{font-family:'Outfit',sans-serif;fill:#8A8A80;font-size:7.5px;font-weight:300;text-anchor:middle}
+      .loop-arrow{fill:none;stroke:#E85D26;stroke-width:1.5;marker-end:url(#arrowhead)}
+    </style>
+    <defs><marker id="arrowhead" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0, 7 2.5, 0 5" fill="#E85D26"/></marker></defs>
+    <!-- Nodes -->
+    <rect x="10" y="35" width="100" height="50" rx="25" fill="none" stroke="#E85D26" stroke-width="1.5" class="anim-pop anim-d1"/>
+    <text x="60" y="58" class="loop-text anim-fade anim-d1">Provocation</text>
+    <text x="60" y="72" class="loop-sub anim-fade anim-d1">a piece of thinking</text>
+
+    <rect x="160" y="35" width="100" height="50" rx="25" fill="none" stroke="#1A7A6D" stroke-width="1.5" class="anim-pop anim-d2"/>
+    <text x="210" y="58" class="loop-text anim-fade anim-d2" style="fill:#1A7A6D">Invitation</text>
+    <text x="210" y="72" class="loop-sub anim-fade anim-d2">into the room</text>
+
+    <rect x="310" y="35" width="100" height="50" rx="25" fill="none" stroke="#C4A96A" stroke-width="1.5" class="anim-pop anim-d3"/>
+    <text x="360" y="58" class="loop-text anim-fade anim-d3" style="fill:#C4A96A">Signal</text>
+    <text x="360" y="72" class="loop-sub anim-fade anim-d3">what they react to</text>
+
+    <!-- Forward arrows -->
+    <path d="M112 60 L158 60" class="loop-arrow draw-line anim-d2" style="--path-len:46"/>
+    <path d="M262 60 L308 60" class="loop-arrow draw-line anim-d3" style="--path-len:46"/>
+    <!-- Loop back arrow -->
+    <path d="M360 87 C360 120, 60 120, 60 87" fill="none" stroke="#DDD8CC" stroke-width="1.2" stroke-dasharray="4,3" class="anim-fade anim-d5"/>
+    <text x="210" y="118" class="loop-sub anim-fade anim-d5" style="fill:#8A8A80">adjust and repeat</text>
+  </svg>
+  <p>But data is useless if you don't sit with it. Roger Martin, named the world's #1 management thinker in 2017, has a golf analogy he keeps coming back to. You can go to the driving range and hit a thousand balls. But if you don't stop and ask yourself whether your swing produced the result you hoped for, you won't improve. You'll just groove your current swing, whether it's good or bad. He tried to get consultants at his firm to write a short note after every project on what they learned. Less than 1% did it. "These bright, hard-working people liked to practice but not to reflect."</p>
+  <p>Ibarra's research found the same thing. The people who successfully reinvented didn't just experiment. They sat with the results honestly and asked what the data was actually telling them. She calls it "making sense," and it's the step her research shows most people skip.</p>
+  <p>If your experiments came back cold, this is not the end. It's information. Consider going back and trying different provocations. The timeline is a suggestion, not a cage.</p>
+  <p><strong>Some questions worth sitting with:</strong></p>
+  <p>What got a response? What didn't? What surprised you? Where was the lean-in strongest, and was it where you expected?</p>
+  <p>Does your value statement still hold, or does it need rewriting based on what you've learned?</p>
+</div>
+
+
+<!-- ═══ STEP 9 ═══ -->
+<div class="step r" id="step9">
+  <div class="step-header"><div class="step-num">9</div><div class="step-phase" style="background:rgba(232,93,38,.08);color:var(--ember)">Go out</div></div>
+  <h2>🏗️ The Artifact</h2>
+  <div class="step-why">Step 9</div>
+  <p>By now you've audited your tasks, written down who you actually are, heard what other people see, synthesised it into a statement, found your audience, tested provocations, and refined based on what happened. Godin has a word for what comes next: "shipping." It means putting something into the world, not when it's perfect, but when it's real enough to show.</p>
+  <p>For a strategist, this can take many forms. A framework you've developed. A piece of writing that shows how you think. A provocation that galvanises a community around an issue. A workshop format that's distinctly yours. Or it can be quieter than that: the in-person conversation that nobody knows about except the person who values your perspective enough to pay for it. Not every artifact needs a URL. Some of the most valuable ones happen in rooms. You have to earn it. You have to be useful. And sometimes that isn't called strategy. The point isn't visibility. It's proof.</p>
+
+  <!-- Artifact spectrum -->
+  <svg viewBox="0 0 440 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:440px;margin:1rem auto;display:block">
+    <style>.as{font-family:'Outfit',sans-serif;font-size:7.5px;font-weight:500;text-anchor:middle}</style>
+    <!-- Spectrum line -->
+    <line x1="40" y1="35" x2="400" y2="35" stroke="#DDD8CC" stroke-width="1.5"/>
+    <!-- Dots and labels -->
+    <circle cx="60" cy="35" r="5" fill="#1A7A6D"/>
+    <text x="60" y="55" class="as" style="fill:#1A7A6D">quiet</text>
+    <text x="60" y="65" class="as" style="fill:#8A8A80;font-weight:300">conversation</text>
+
+    <circle cx="150" cy="35" r="5" fill="#C4A96A"/>
+    <text x="150" y="55" class="as" style="fill:#C4A96A">shared</text>
+    <text x="150" y="65" class="as" style="fill:#8A8A80;font-weight:300">workshop</text>
+
+    <circle cx="240" cy="35" r="5" fill="#C4A96A"/>
+    <text x="240" y="55" class="as" style="fill:#C4A96A">written</text>
+    <text x="240" y="65" class="as" style="fill:#8A8A80;font-weight:300">post / case study</text>
+
+    <circle cx="330" cy="35" r="5" fill="#E85D26"/>
+    <text x="330" y="55" class="as" style="fill:#E85D26">built</text>
+    <text x="330" y="65" class="as" style="fill:#8A8A80;font-weight:300">framework / tool</text>
+
+    <circle cx="390" cy="35" r="5" fill="#E85D26"/>
+    <text x="390" y="55" class="as" style="fill:#E85D26">public</text>
+    <text x="390" y="65" class="as" style="fill:#8A8A80;font-weight:300">community</text>
+
+    <!-- Labels at ends -->
+    <text x="60" y="82" class="as" style="fill:#8A8A80;font-weight:300;font-style:italic">invisible but valuable</text>
+    <text x="390" y="82" class="as" style="fill:#8A8A80;font-weight:300;font-style:italic">visible proof of work</text>
+  </svg>
+  <p><strong>Some questions worth sitting with:</strong></p>
+  <p>What's the one thing someone could look at, read, or experience that proves you can do what you say you can do?</p>
+  <p>Does it need to be public, or could it be a conversation?</p>
+</div>
+
+
+<!-- ═══ STEP 10 ═══ -->
+<div class="step r" id="step10">
+  <div class="step-header"><div class="step-num">10</div><div class="step-phase" style="background:rgba(232,93,38,.08);color:var(--ember)">Lock in</div></div>
+  <h2>📢 The Declaration</h2>
+  <div class="step-why">Step 10</div>
+  <p>There's a reason the last step isn't "make a plan." It's "start talking." Not a single grand declaration to one person. Something more ongoing than that. Talk about your ideas, your thinking, your perspectives. Talk to friends in the business. Talk to your network. Talk to the people you meet through your network. Use those conversations to test your ideas, to have them challenged, to build and find like minds who you could potentially work with or who could work with you. But all of this with the very clear frame of knowing what species of strategist you are and what is unique about you and you alone. This isn't general networking. It's focused, specific, and yours.</p>
+  <p><strong>Some questions worth sitting with:</strong></p>
+  <p>Who are the first three people you'll talk to? What will you say? What do you want to test with each of them?</p>
+</div>
+
+
+
+<!-- ═══ REFERENCES ═══ -->
+<div class="refs r">
+  <div class="refs-title">Go deeper: the thinkers and works behind this piece</div>
+  <p><strong>Herminia Ibarra</strong>. <em>Working Identity</em> (Harvard Business School Press, updated 2024). The foundational research on professional identity reinvention. London Business School. <a href="https://herminiaibarra.com/working-identity-book/">herminiaibarra.com</a></p>
+  <p><strong>Seth Godin</strong>. <em>Linchpin</em> (2010) and <em>This Is Strategy</em> (2024). On becoming irreplaceable and finding your smallest viable audience. <a href="https://seths.blog/">seths.blog</a></p>
+  <p><strong>Adam Grant</strong>. <em>Hidden Potential</em> (Viking, 2023). On why we underestimate our range. Wharton. <a href="https://adamgrant.net/">adamgrant.net</a></p>
+  <p><strong>Yuval Noah Harari</strong>. <em>Nexus</em> (2024) and Davos 2026 keynote. On developing human minds alongside AI. <a href="https://www.ynharari.com/">ynharari.com</a></p>
+  <p><strong>Daron Acemoglu & David Autor</strong>. Task-based model of automation (MIT). <em>Building Pro-Worker AI</em> (Hamilton Project, 2026).</p>
+  <p><strong>David Epstein</strong>. <em>Range</em> (Riverhead, 2019). On why generalists thrive in complexity. <a href="https://davidepstein.com/">davidepstein.com</a></p>
+  <p><strong>Tsedal Neeley</strong>. Harvard Business School. "Change fitness" as a buildable capacity. <a href="https://www.hbs.edu/faculty/Pages/profile.aspx?facId=330873">HBS faculty page</a></p>
+  <p><strong>Jud Brewer</strong> — <em>Unwinding Anxiety</em> (Avery, 2021). 20 years of neuroscience research at Brown University on habit loops, anxiety, and why curiosity beats willpower. His framework for distinguishing bad ideas from bad experiments is essential for Step 6.</p>
+  <p><strong>Mark Granovetter</strong>. <em>The Strength of Weak Ties</em> (American Journal of Sociology, 1973). <a href="https://sociology.stanford.edu/people/mark-granovetter">Stanford</a></p>
+  <p><strong>James Pennebaker</strong>. <em>Opening Up by Writing It Down</em> (Guilford Press, 2016). 40 years of expressive writing research, UT Austin. <a href="https://www.apa.org/news/podcasts/speaking-of-psychology/expressive-writing">APA interview</a></p>
+  <p><strong>The Bhagavad Gita</strong>. (~200 BCE). <em>Svadharma</em>. your own nature. <a href="https://www.blueflowerpress.org/the-bhagavad-gita">Recommended: Eknath Easwaran translation</a></p>
+  <p><strong>World Economic Forum</strong>. <em>Future of Jobs Report 2025</em>. 170m new roles, 92m displaced, 78m net new. <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/">weforum.org</a></p>
+</div>
+
+
+<!-- ═══ CLOSE ═══ -->
+<section class="close r">
+  <p>What's distinctly you is in there somewhere. Maybe it's something you've always done but never thought of as valuable. Maybe it's something other people see more clearly than you do. Maybe you haven't fully stepped into it yet. The ten steps above are just different ways of looking for it.</p>
+  <p>This is not a normal transition. Not for individual practitioners, not for the discipline. Nobody knows how it will shake out, and anyone who says they do is selling something. So stay in motion. Stay in conversation. Keep experimenting.</p>
+  <p>The question underneath all of it is the same one we started with: who are you, what do you do that has value, and who needs it?</p>
+  <div class="credit">Developed by Ed Cotton · <a href="https://www.invernessconsulting.com">Inverness Consulting</a></div>
+</section>
+
+<script>
+// Scroll reveal
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v')})},{threshold:.1,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+
+// SVG animation observer
+const svgObs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('animated');svgObs.unobserve(x.target)}})},{threshold:.3});
+document.querySelectorAll('.anim-svg').forEach(el=>svgObs.observe(el));
+
+// Progress bar
+(function(){
+  const bar=document.getElementById('progressBar');
+  const dots=bar.querySelectorAll('.progress-dot');
+  const fills=bar.querySelectorAll('.progress-line .fill');
+  const label=document.getElementById('currentStep');
+  const steps=[];
+  for(let i=1;i<=10;i++){const el=document.getElementById('step'+i);if(el)steps.push(el);}
+  const hero=document.getElementById('hero');
+
+  function update(){
+    const scrollY=window.scrollY;
+    const heroBottom=hero.offsetTop+hero.offsetHeight;
+    bar.classList.toggle('show',scrollY>heroBottom-100);
+
+    let current=0;
+    steps.forEach((s,i)=>{
+      const top=s.offsetTop-200;
+      if(scrollY>=top)current=i;
+    });
+
+    dots.forEach((d,i)=>{
+      d.classList.remove('active','done');
+      if(i<current)d.classList.add('done');
+      if(i===current)d.classList.add('active');
+    });
+    fills.forEach((f,i)=>{
+      f.style.width=i<current?'100%':'0%';
+    });
+    label.textContent=current+1;
+  }
+  window.addEventListener('scroll',update,{passive:true});
+  update();
+})();
+</script>
+</body>
+</html>
